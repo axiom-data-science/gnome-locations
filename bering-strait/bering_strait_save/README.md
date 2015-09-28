@@ -1,29 +1,21 @@
+###Bering Strait
 
-Wind isn't working for some reason...
+#### September 26th - October 4th
 
 
-```
+GFS winds downloaded using GOODS are not working in PyGnome for some reason.
+If they start working, `Model.json` can be enhanced with them.
+
+
+```json
 {
-    "obj_type": "gnome.model.Model",
-    "map": {
-        "json_": "save",
-        "obj_type": "gnome.map.MapFromBNA",
-        "filename": "bering-straight.bna",
-        "refloat_halflife": 1.0
-    },
+    ...
     "movers": [
-        {
-            "obj_type": "gnome.movers.random_movers.RandomMover",
-            "id": "RandomMover_1.json",
-        },
-        {
-            "obj_type": "gnome.movers.current_movers.CatsMover",
-            "id": "CatsMover_1.json"
-        },
+        ...
         {
             "obj_type": "gnome.movers.wind_movers.WindMover",
             "id": "WindMover_1.json"
-        },
+        }
     ],
     "environment": [
         {
@@ -31,6 +23,6 @@ Wind isn't working for some reason...
             "obj_type": "gnome.environment.wind.Wind",
         }
     ],
-    "time_step": 360.0,
-    "json_": "save"
+    ...
 }
+```
