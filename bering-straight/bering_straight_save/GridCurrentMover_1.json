@@ -1,5 +1,6 @@
 {
     "obj_type": "gnome.movers.current_movers.GridCurrentMover",
     "filename": "HYCOM.nc",
+    "topology_file": "HYCOM.topo",
     "json_": "save"
 }
