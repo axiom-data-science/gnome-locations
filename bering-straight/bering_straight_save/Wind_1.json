@@ -1,0 +1,12 @@
+{
+    "obj_type": "gnome.environment.wind.Wind",
+    "json_": "save",
+    "description": "Wind Object",
+    "updated_at": null,
+    "filename": "GFS_Global_0p5deg.nc",
+    "speed_uncertainty_scale": 0.0,
+    "source_type": "undefined",
+    "source_id": "undefined",
+    "units": "m/s",
+    "name": "Wind"
+}

@@ -1,0 +1,13 @@
+{
+    "obj_type": "gnome.movers.wind_movers.WindMover", 
+    "on": true, 
+    "name": "Wind", 
+    "uncertain_angle_scale": 0.4, 
+    "uncertain_duration": 3.0, 
+    "active_start": "-inf", 
+    "active_stop": "inf", 
+    "json_": "save", 
+    "uncertain_time_delay": 0.0, 
+    "wind": "Wind_1.json", 
+    "uncertain_speed_scale": 2.0
+}
