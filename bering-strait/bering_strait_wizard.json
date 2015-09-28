@@ -1,5 +1,5 @@
 {
-    "name": "Bering Straight",
+    "name": "Bering Strait",
     "geometry": {
         "coordinates": [
             -169.016667,
@@ -9,9 +9,9 @@
     "steps": [
         {
             "type": "welcome",
-            "name": "Welcome to the Bering Straight",
+            "name": "Welcome to the Bering Strait",
             "buttons": "<button type='button' class='cancel' data-dismiss='modal'>Cancel</button><button type='button' class='next'>Next</button>",
-            "body": "<p>You will need to do the following in order to set up the General NOAA Operational Modeling Environment for the Bering Straight :</p><ol><li>Set the model run parameters.</li><li>Input the wind conditions.</li></ol>"
+            "body": "<p>You will need to do the following in order to set up the General NOAA Operational Modeling Environment for the Bering Strait :</p><ol><li>Set the model run parameters.</li><li>Input the wind conditions.</li></ol>"
         },
         {
             "type": "model",
