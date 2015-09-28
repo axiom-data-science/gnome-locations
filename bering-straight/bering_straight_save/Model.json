@@ -9,21 +9,11 @@
     "movers": [
         {
             "obj_type": "gnome.movers.random_movers.RandomMover",
-            "id": "RandomMover_1.json",
+            "id": "RandomMover_1.json"
         },
         {
-            "obj_type": "gnome.movers.current_movers.CatsMover",
-            "id": "CatsMover_1.json"
-        },
-        {
-            "obj_type": "gnome.movers.wind_movers.WindMover",
-            "id": "WindMover_1.json"
-        },
-    ],
-    "environment": [
-        {
-            "id": "Wind_1.json",
-            "obj_type": "gnome.environment.wind.Wind",
+            "obj_type": "gnome.movers.current_movers.GridCurrentMover",
+            "id": "GridCurrentMover_1.json"
         }
     ],
     "time_step": 360.0,
