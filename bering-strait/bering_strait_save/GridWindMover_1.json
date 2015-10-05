@@ -1,0 +1,5 @@
+{
+    "obj_type": "gnome.movers.wind_movers.GridWindMover",
+    "wind_file": "GFS_Global_0p5deg.nc",
+    "json_": "save"
+}

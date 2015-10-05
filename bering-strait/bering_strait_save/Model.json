@@ -14,6 +14,10 @@
         {
             "obj_type": "gnome.movers.current_movers.GridCurrentMover",
             "id": "GridCurrentMover_1.json"
+        },
+        {
+            "obj_type": "gnome.movers.wind_movers.GridWindMover",
+            "id": "GridWindMover_1.json"
         }
     ],
     "time_step": 360.0,
