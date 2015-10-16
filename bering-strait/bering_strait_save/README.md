@@ -1,12 +1,9 @@
-###Bering Strait
+### Bering Strait
 
-#### September 26th - October 4th
-
-
-GFS winds downloaded using GOODS are not working in PyGnome for some reason...
-
+* **GFS** Winds and **HYCOM** Currents
+* 4 day running window of data, updatable with the `update.sh` script
 
 #### GOODS Dimensions
 
-Lat: 55.5 - 70.5
-Lon: -179.5 -> -160
+* Lat: 55.5 to 70.5
+* Lon: -179.5 to -160
