@@ -3,18 +3,6 @@ MAINTAINER Dave Foster <dave@axds.co>
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get install --no-install-recommends -y \
-    bzip2 \
-    ca-certificates \
-    libglib2.0-0 \
-    libkeyutils-dev \
-    pwgen \
-    wget
-
-RUN apt-get update
-RUN apt-get upgrade -y
-
-# Setup CONDA (https://hub.docker.com/r/continuumio/miniconda3/~/dockerfile/)
-RUN apt-get install -y \
     binutils \
     bzip2 \
     ca-certificates \
@@ -22,6 +10,7 @@ RUN apt-get install -y \
     curl \
     git \
     libglib2.0-0 \
+    libkeyutils-dev \
     libproj-dev \
     libsm6 \
     procps \
@@ -41,17 +30,10 @@ RUN conda install -y \
     --channel ioos \
     netcdf4
 
-RUN mkdir -p /srv/webgnome/location_files
+RUN mkdir -p /data
 
-VOLUME /srv/webgnome/location_files/bering-strait
-COPY bering-strait/ /srv/webgnome/location_files/bering-strait/
+WORKDIR /data
+COPY update.sh /data/update.sh
 
-WORKDIR /srv/webgnome/location_files/
-COPY update.sh /srv/webgnome/location_files/
-
-COPY files/crontab /etc/cron.d/gnome-locations
-RUN chmod 600 /etc/cron.d/gnome-locations
-RUN touch /var/log/crontab.log
-
-CMD cron && tail -f /var/log/crontab.log
+CMD ./update.sh
 
