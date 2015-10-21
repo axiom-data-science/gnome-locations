@@ -5,5 +5,5 @@
 
 #### GOODS Dimensions
 
-* Lat: 55.5 to 70.5
-* Lon: -179.5 to -160
+* Lat: 55.5S to 70.5N
+* Lon: 175W to -160E (crosses date line)
