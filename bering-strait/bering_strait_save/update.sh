@@ -1,5 +1,7 @@
 #!/bin/bash
 
+FAILS=0
+
 #check for ncdump
 command -v ncdump >/dev/null 2>&1 || { echo "ncdump is required but not installed (aptitude install -y netcdf-bin)" >&2; exit 1; }
 
@@ -10,6 +12,7 @@ if [ $? -eq 0 ]; then
     mv GFS_download.nc GFS.nc
 else
     echo "Problem downloading GFS files"
+    let "FAILS += 1"
 fi
 
 # Get HYCOM
@@ -19,4 +22,8 @@ if [ $? -eq 0 ]; then
     mv HYCOM_download.nc HYCOM.nc
 else
     echo "Problem downloading HYCOM files"
+    let "FAILS += 1"
 fi
+
+exit $FAILS
+
