@@ -1,0 +1,3 @@
+#!/bin/sh
+docker run -d -v /srv/prom-collector-text:/export -v /srv/gnome-locations/bering-strait:/data/bering-strait gnome-locations-updater
+

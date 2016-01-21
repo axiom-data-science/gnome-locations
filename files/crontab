@@ -1,2 +1,0 @@
-0 6 * * * root cd /srv/webgnome/location_files/ && bash -l -c "./update.sh 2>&1 >>/var/log/crontab.log"
-
