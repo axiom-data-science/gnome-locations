@@ -7,7 +7,7 @@ metric_type ()
     # metric name, metric type
     local metric_name=$1
     local metric_type=$2
-    echo "# TYPE axiom_uaadhs_gnomelocations_$metric_name $metric_type" >>stats.prom
+    echo "# TYPE ${PROM_METRIC_PREFIX}gnomelocations_$metric_name $metric_type" >>stats.prom
 }
 
 # prep metrics
@@ -38,7 +38,7 @@ done
 
 if [ $# -gt 0 ];
 then
-    cp stats.prom $1/gnome-location-stats.prom
+    curl --data-binary @stats.prom $1
 fi
 
 exit $ALL_EXIT

@@ -38,10 +38,9 @@ RUN conda install -y \
     netcdf4
 
 RUN mkdir -p /data
-RUN mkdir -p /export
 
 WORKDIR /data
 COPY update.sh /data/update.sh
 
-CMD ./update.sh /export
+ENTRYPOINT ["./update.sh"]
 
