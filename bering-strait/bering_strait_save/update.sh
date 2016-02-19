@@ -92,7 +92,7 @@ metric download_total HYCOM $(( $NCD_C == 0 ? 1 : 0 )) 'code="success"'
 metric download_total HYCOM $(( $NCD_C == 0 ? 0 : 1 )) 'code="failure"'
 metric update_duration_milliseconds HYCOM $(( $END_HYCOM - $START_HYCOM ))
 metric last_completed_milliseconds HYCOM $END_HYCOM
-metric model_size_bytes GFS $(stat -c%s HYCOM.nc)
+metric model_size_bytes HYCOM $(stat -c%s HYCOM.nc)
 metric timerange_start_seconds HYCOM $HYCOM_LOWER
 metric timerange_end_seconds HYCOM $HYCOM_UPPER
 
