@@ -64,7 +64,7 @@ metric timerange_end_seconds GFS $GFS_UPPER
 
 # Get HYCOM
 START_HYCOM=$(date +%s%3N)
-curl -k 'https://gnome.orr.noaa.gov/goods/currents/HYCOM/get_data' -H 'Host: gnome.orr.noaa.gov' -H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:40.0) Gecko/20100101 Firefox/40.0' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' -H 'Accept-Language: en-US,en;q=0.5' --compressed -H 'Referer: http://gnome.orr.noaa.gov/goods/currents/HYCOM/get_data' -H 'Connection: keep-alive' --data 'dataset=&selected_file_url=http%3A%2F%2Ftds.hycom.org%2Fthredds%2FdodsC%2FGLBa0.08%2Flatest&err_placeholder=&start_time=0&time_step=1&end_time=9&NorthLat=70.5&WestLon=175&xDateline=1&EastLon=-160&SouthLat=55.5&Stride=1&time_zone=0&submit=Get+Data' -o HYCOM_download.nc
+curl -k 'https://gnome.orr.noaa.gov/goods/currents/HYCOM/get_data' -H 'Host: gnome.orr.noaa.gov' -H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:40.0) Gecko/20100101 Firefox/40.0' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' -H 'Accept-Language: en-US,en;q=0.5' --compressed -H 'Referer: http://gnome.orr.noaa.gov/goods/currents/HYCOM/get_data' -H 'Connection: keep-alive' --data 'dataset=&selected_file_url=http%3A%2F%2Ftds.hycom.org%2Fthredds%2FdodsC%2FGLBa0.08%2Fexpt_91.1&err_placeholder=&start_time=0&time_step=1&end_time=39&NorthLat=70.5&WestLon=175&xDateline=1&EastLon=-160&SouthLat=55.5&Stride=1&time_zone=0&submit=Get+Data' -o HYCOM_download.nc
 END_HYCOM=$(date +%s%3N)
 
 ncdump -h HYCOM_download.nc
