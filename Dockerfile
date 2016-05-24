@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
         cron \
         curl \
         git \
+        html-xml-utils \
         libglib2.0-0 \
         libgomp1 \
         libkeyutils-dev \
