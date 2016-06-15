@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
         ca-certificates \
         cron \
         curl \
+        file \
         git \
         html-xml-utils \
         libglib2.0-0 \

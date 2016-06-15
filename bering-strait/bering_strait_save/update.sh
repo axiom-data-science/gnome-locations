@@ -3,6 +3,10 @@
 FAILS=0
 LOC_NAME=bering-strait
 
+# WORKAROUND: use system curl to avoid certificate problems with anaconda curl
+# see https://github.com/conda/conda-recipes/issues/352 and http://stackoverflow.com/a/35956375/84732
+alias curl=/usr/bin/curl
+
 #check for ncdump
 command -v ncdump >/dev/null 2>&1 || { echo "ncdump is required but not installed (aptitude install -y netcdf-bin)" >&2; exit 1; }
 
@@ -82,6 +86,8 @@ if [ $NCD_C -eq 0 ]; then
     mv GFS_download.nc GFS.nc
 else
     echo "Problem downloading GFS files"
+    file GFS_download.nc
+    [ $(file --mime-type GFS_download.nc | cut -d':' -f2 | cut -d'/' -f1 | tr -d ' ') == "text" ] && cat GFS_download.nc
     let "FAILS += 1"
 fi
 
@@ -127,6 +133,8 @@ if [ $NCD_C -eq 0 ]; then
     mv HYCOM_download.nc HYCOM.nc
 else
     echo "Problem downloading HYCOM files"
+    file HYCOM_download.nc
+    [ $(file --mime-type HYCOM_download.nc | cut -d':' -f2 | cut -d'/' -f1 | tr -d ' ') == "text" ] && cat HYCOM_download.nc
     let "FAILS += 1"
 fi
 
