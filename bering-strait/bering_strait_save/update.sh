@@ -5,7 +5,6 @@ LOC_NAME=bering-strait
 
 # WORKAROUND: use system curl to avoid certificate problems with anaconda curl
 # see https://github.com/conda/conda-recipes/issues/352 and http://stackoverflow.com/a/35956375/84732
-alias curl=/usr/bin/curl
 
 #check for ncdump
 command -v ncdump >/dev/null 2>&1 || { echo "ncdump is required but not installed (aptitude install -y netcdf-bin)" >&2; exit 1; }
@@ -48,7 +47,7 @@ get_time_bounds ()
     esac
 
     # TODO: can't use local here or $? won't get set, thank's obashma
-    bounds=($(curl -X POST -F "selected_file_url=$sfu" -F 'dataset=$dataset' https://gnome.orr.noaa.gov/goods/currents/$model/subset | hxnormalize -e -x | tee debug.html | hxselect "#start_time option" | hxpipe | grep "value CDATA" | cut -d' ' -f 3))
+    bounds=($(/usr/bin/curl -X POST -F "selected_file_url=$sfu" -F 'dataset=$dataset' https://gnome.orr.noaa.gov/goods/currents/$model/subset | hxnormalize -e -x | tee debug.html | hxselect "#start_time option" | hxpipe | grep "value CDATA" | cut -d' ' -f 3))
     if [ $? -ne 0 ]
     then
         echo "(could not get $model bounds, using defaults)"
@@ -77,7 +76,7 @@ echo "GFS Timesteps: $START_TIMESTEP - $END_TIMESTEP"
 
 # Get GFS
 START_GFS=$(date +%s%3N)
-curl -k 'https://gnome.orr.noaa.gov/goods/currents/GFS/get_data' -H 'Host: gnome.orr.noaa.gov' -H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:40.0) Gecko/20100101 Firefox/40.0' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' -H 'Accept-Language: en-US,en;q=0.5' --compressed -H 'Referer: http://gnome.orr.noaa.gov/goods/currents/GFS/get_data' -H 'Connection: keep-alive' --data "dataset=Global_0p5deg&selected_file_url=http%3A%2F%2Fthredds.ucar.edu%2Fthredds%2FdodsC%2Fgrib%2FNCEP%2FGFS%2FGlobal_0p5deg%2Fbest&err_placeholder=&start_time=$START_TIMESTEP&time_step=1&end_time=$END_TIMESTEP&NorthLat=70.5&WestLon=175&xDateline=1&EastLon=-160&SouthLat=55.5&Stride=1&time_zone=0&submit=Get+Data" -o GFS_download.nc
+/usr/bin/curl -k 'https://gnome.orr.noaa.gov/goods/currents/GFS/get_data' -H 'Host: gnome.orr.noaa.gov' -H 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:40.0) Gecko/20100101 Firefox/40.0' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8' -H 'Accept-Language: en-US,en;q=0.5' --compressed -H 'Referer: http://gnome.orr.noaa.gov/goods/currents/GFS/get_data' -H 'Connection: keep-alive' --data "dataset=Global_0p5deg&selected_file_url=http%3A%2F%2Fthredds.ucar.edu%2Fthredds%2FdodsC%2Fgrib%2FNCEP%2FGFS%2FGlobal_0p5deg%2Fbest&err_placeholder=&start_time=$START_TIMESTEP&time_step=1&end_time=$END_TIMESTEP&NorthLat=70.5&WestLon=175&xDateline=1&EastLon=-160&SouthLat=55.5&Stride=1&time_zone=0&submit=Get+Data" -o GFS_download.nc
 END_GFS=$(date +%s%3N)
 
 ncdump -h GFS_download.nc
@@ -124,7 +123,7 @@ get_time_bounds HYCOM
 echo "HYCOM Timesteps: $START_TIMESTEP - $END_TIMESTEP"
 
 START_HYCOM=$(date +%s%3N)
-curl -k 'https://gnome.orr.noaa.gov/goods/currents/HYCOM/get_data' -H 'Origin: https://gnome.orr.noaa.gov' -H 'Accept-Encoding: gzip, deflate' -H 'Accept-Language: en-US,en;q=0.8' -H 'Upgrade-Insecure-Requests: 1' -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.28 Safari/537.36' -H 'Content-Type: application/x-www-form-urlencoded' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8' -H 'Cache-Control: max-age=0' -H 'Referer: https://gnome.orr.noaa.gov/goods/currents/HYCOM/get_data' -H 'Connection: keep-alive' --data "dataset=&selected_file_url=http%3A%2F%2Ftds.hycom.org%2Fthredds%2FdodsC%2FGLBa0.08%2Fexpt_91.2&err_placeholder=&start_time=$START_TIMESTEP&time_step=1&end_time=$END_TIMESTEP&NorthLat=70.5&WestLon=175&xDateline=1&EastLon=-160&SouthLat=55.5&Stride=1&time_zone=0&submit=Get+Data" --compressed -o HYCOM_download.nc
+/usr/bin/curl -k 'https://gnome.orr.noaa.gov/goods/currents/HYCOM/get_data' -H 'Origin: https://gnome.orr.noaa.gov' -H 'Accept-Encoding: gzip, deflate' -H 'Accept-Language: en-US,en;q=0.8' -H 'Upgrade-Insecure-Requests: 1' -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.28 Safari/537.36' -H 'Content-Type: application/x-www-form-urlencoded' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8' -H 'Cache-Control: max-age=0' -H 'Referer: https://gnome.orr.noaa.gov/goods/currents/HYCOM/get_data' -H 'Connection: keep-alive' --data "dataset=&selected_file_url=http%3A%2F%2Ftds.hycom.org%2Fthredds%2FdodsC%2FGLBa0.08%2Fexpt_91.2&err_placeholder=&start_time=$START_TIMESTEP&time_step=1&end_time=$END_TIMESTEP&NorthLat=70.5&WestLon=175&xDateline=1&EastLon=-160&SouthLat=55.5&Stride=1&time_zone=0&submit=Get+Data" --compressed -o HYCOM_download.nc
 END_HYCOM=$(date +%s%3N)
 
 ncdump -h HYCOM_download.nc
