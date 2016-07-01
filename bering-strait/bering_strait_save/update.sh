@@ -117,9 +117,9 @@ metric timerange_end_seconds GFS $GFS_UPPER
 ##############################################################################
 
 # get timestep bounds for HYCOM
-START_TIMESTEP=0
-END_TIMESTEP=38
-get_time_bounds HYCOM
+START_TIMESTEP=18
+END_TIMESTEP=39
+#get_time_bounds HYCOM
 echo "HYCOM Timesteps: $START_TIMESTEP - $END_TIMESTEP"
 
 START_HYCOM=$(date +%s%3N)
