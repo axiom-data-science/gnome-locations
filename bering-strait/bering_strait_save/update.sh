@@ -31,6 +31,8 @@ metric ()
 
 get_time_bounds ()
 {
+    # if $2/$3 are passed in, they are a lower/upper clamp on time value.
+    # we use it to lock HYCOM down to the range provided by GFS, because HYCOM is too big most of the time, so we need to get an accurate subset
     local model=$1
     local sfu=_
     local dataset=_
@@ -46,21 +48,64 @@ get_time_bounds ()
             ;;
     esac
 
-    # TODO: can't use local here or $? won't get set, thank's obashma
-    bounds=($(/usr/bin/curl -X POST -F "selected_file_url=$sfu" -F 'dataset=$dataset' https://gnome.orr.noaa.gov/goods/currents/$model/subset | hxnormalize -e -x | tee debug.html | hxselect "#start_time option" | hxpipe | grep "value CDATA" | cut -d' ' -f 3))
+    capdata=$(/usr/bin/curl -X POST -F "selected_file_url=$sfu" -F 'dataset=$dataset' https://gnome.orr.noaa.gov/goods/currents/$model/subset | hxnormalize -e -x | tee debug.html | hxselect "#start_time option" | hxpipe | tail -n+2)
     if [ $? -ne 0 ]
     then
         echo "(could not get $model bounds, using defaults)"
         return 1
     fi
 
-    # make sure its an array of length > 1
-    if [[ -n ${bounds[0]} && ${#bounds[@]} -gt 1 && -n ${bounds[${#bounds[@]} -1]} ]]; then
-        START_TIMESTEP=${bounds[0]}
-        END_TIMESTEP=${bounds[${#bounds[@]} - 1]}
+    if (( $# > 2 )); then
+        local OFFSETS=()
+        local STAMPS=()
+
+        while read -r -a arr
+        do
+            #echo "${arr[2]}"
+            OFFSETS+=("${arr[2]}")
+
+            read -r waste
+            read -r ndate
+            IFS=" " read -ra DATESPLIT <<< "$(echo ${ndate:1} | tr '\\n' ' ')"
+            slime=$(date -d "${DATESPLIT[0]}" -u +"%s")
+            read -r waste
+
+            STAMPS+=("$slime")
+
+        done <<< "$capdata"
+
+        local UPPER=$((${#STAMPS[@]} - 1))
+
+        LOW=0
+        for i in $(seq 0 $UPPER); do
+            if [[ "$2" -le "${STAMPS[$i]}" ]]; then
+                LOW=$i
+                break
+            fi
+        done
+
+        HIGH=$UPPER
+        for i in $(seq 0 $UPPER); do
+            if [[ "$3" -le "${STAMPS[$i]}" ]]; then
+                HIGH=$i
+                break
+            fi
+        done
+
+        START_TIMESTEP=${OFFSETS[$LOW]}
+        END_TIMESTEP=${OFFSETS[$HIGH]}
+
     else
-        echo "(could not get $model bounds, using defaults (2))"
-        return 1
+        bounds=($(echo "$capdata" | grep "value CDATA" | cut -d' ' -f 3))
+
+        # make sure its an array of length > 1
+        if [[ -n ${bounds[0]} && ${#bounds[@]} -gt 1 && -n ${bounds[${#bounds[@]} -1]} ]]; then
+            START_TIMESTEP=${bounds[0]}
+            END_TIMESTEP=${bounds[${#bounds[@]} - 1]}
+        else
+            echo "(could not get $model bounds, using defaults (2))"
+            return 1
+        fi
     fi
 }
 
@@ -117,9 +162,9 @@ metric timerange_end_seconds GFS $GFS_UPPER
 ##############################################################################
 
 # get timestep bounds for HYCOM
-START_TIMESTEP=18
+START_TIMESTEP=0
 END_TIMESTEP=39
-#get_time_bounds HYCOM
+get_time_bounds HYCOM $GFS_LOWER $GFS_UPPER
 echo "HYCOM Timesteps: $START_TIMESTEP - $END_TIMESTEP"
 
 START_HYCOM=$(date +%s%3N)
