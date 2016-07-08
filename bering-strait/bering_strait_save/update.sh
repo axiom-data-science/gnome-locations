@@ -14,7 +14,6 @@ truncate --size 0 stats.prom
 metric ()
 {
     # metric name, model name, value, additional labels*
-    local ts=$(date +%s%3N)       # milliseconds since epoch
     local metric_name=$1
     local model_name=$2
     local value=$3
@@ -26,7 +25,7 @@ metric ()
         local additional=",$*"
     fi
 
-    echo "${PROM_METRIC_PREFIX}gnomelocations_$metric_name{location=\"$LOC_NAME\",model=\"$model_name\"$additional} $value $ts" >>stats.prom
+    echo "${PROM_METRIC_PREFIX}gnomelocations_$metric_name{location=\"$LOC_NAME\",model=\"$model_name\"$additional} $value" >>stats.prom
 }
 
 get_time_bounds ()
